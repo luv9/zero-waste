@@ -23,7 +23,7 @@ https://expressjs.com/en/starter/installing.html
 https://expressjs.com/en/starter/hello-world.html
 
 
-***Instructions to run the backend server
+***Instructions to run the backend server***
 
 Backend server will be running on port 3000
 go to folder zero-waste/zero-waste-service, and type these commands:
