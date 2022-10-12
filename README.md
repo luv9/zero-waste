@@ -27,12 +27,14 @@ npm install express
 Backend server will be running on port 3000
 go to folder zero-waste/zero-waste-service, and type these commands:
 
+
 npm install
 npm start
 
 
 
-References
+References:
+
 https://expressjs.com/en/starter/installing.html
 
 https://expressjs.com/en/starter/hello-world.html
