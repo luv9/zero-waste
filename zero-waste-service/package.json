@@ -1,0 +1,29 @@
+{
+  "name": "zero-waste-service",
+  "version": "1.0.0",
+  "description": "Zero Waste Service",
+  "main": "app.js",
+  "scripts": {
+    "test": "test",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luv9/zero-waste.git"
+  },
+  "keywords": [
+    "ASE",
+    "express",
+    "node",
+    "mongo"
+  ],
+  "author": "luv",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luv9/zero-waste/issues"
+  },
+  "homepage": "https://github.com/luv9/zero-waste#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
