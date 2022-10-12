@@ -16,11 +16,10 @@ git clone https://github.com/luv9/zero-waste.git
 
 Commands used to create the project(no need to run these commands, these are just for reference):
 npm init - for package.json
+
 npm install express 
 
-References
-https://expressjs.com/en/starter/installing.html
-https://expressjs.com/en/starter/hello-world.html
+
 
 
 ***Instructions to run the backend server***
@@ -30,3 +29,10 @@ go to folder zero-waste/zero-waste-service, and type these commands:
 
 npm install
 npm start
+
+
+
+References
+https://expressjs.com/en/starter/installing.html
+
+https://expressjs.com/en/starter/hello-world.html
