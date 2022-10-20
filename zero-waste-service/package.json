@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/luv9/zero-waste#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongoose": "^6.6.5"
   }
 }
