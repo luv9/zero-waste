@@ -3,10 +3,9 @@ Zero Waste - ASE Project
 
 This repo will serve as the codebase for our project work in the course ASE, MAC - Fall 2022. 
 
+**Zero Waste Service - Backend Setup and Instructions**
+
 We'll be implementing backend services using node and express. We'll be using mongodb for our database purposes.
-
-UI will be implemented in Angular.
-
 
 Created zero-waste-service for backend services
 
@@ -19,6 +18,18 @@ npm init - for package.json
 
 npm install express 
 
+For mongo installation and setup, please follow the instructions from official website.
+
+
+
+For running mongodb server on MacOS(M1):
+Open a new terminal window. Run the following commands:
+brew services start mongodb-community@6.0
+mongod --config /opt/homebrew/etc/mongod.conf --fork
+
+In a new terminal window, run the command ***mongosh***. This will create a connection with mongodb instance and now we can run queries on this database. 
+
+Create collections and insert entry simultaneously.
 
 
 
@@ -38,3 +49,5 @@ References:
 https://expressjs.com/en/starter/installing.html
 
 https://expressjs.com/en/starter/hello-world.html
+
+https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/
