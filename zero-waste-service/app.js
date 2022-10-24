@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const config = require('./config/config')
 
 const app = express()
-const port = 3000
+const port = config.port;
 const mongoUrl = config.mongoUrl;
 
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
