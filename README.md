@@ -24,12 +24,18 @@ For mongo installation and setup, please follow the instructions from official w
 
 For running mongodb server on MacOS(M1):
 Open a new terminal window. Run the following commands:
+
 brew services start mongodb-community@6.0
+
 mongod --config /opt/homebrew/etc/mongod.conf --fork
 
 In a new terminal window, run the command ***mongosh***. This will create a connection with mongodb instance and now we can run queries on this database. 
 
-Create collections and insert entry simultaneously.
+Mongo collections created: user, bin, waste.
+
+DB Name: zero_waste
+
+Config connection to mongo is stored in config/config.js
 
 
 
@@ -51,3 +57,6 @@ https://expressjs.com/en/starter/installing.html
 https://expressjs.com/en/starter/hello-world.html
 
 https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/
+
+https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose
+
