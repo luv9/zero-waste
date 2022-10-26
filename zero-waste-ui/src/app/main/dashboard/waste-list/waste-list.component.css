@@ -1,0 +1,7 @@
+.waste-list{
+    background-color: blueviolet;}
+    .buttons-list{
+        display: flex;
+        flex-direction: column;
+        width: 65px;
+    }

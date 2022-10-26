@@ -1,0 +1,13 @@
+<div style="display:flex">
+    <div class="left-panel">
+        <app-waste-list 
+        (selectedBin)="changeBin($event)"
+        ></app-waste-list>
+    </div>
+
+    <div class="right panel">
+        <app-waste-details 
+        [selectedBin]="selectedBin"
+        ></app-waste-details>
+    </div>
+</div>
