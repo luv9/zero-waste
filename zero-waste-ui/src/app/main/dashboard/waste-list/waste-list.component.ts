@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnChanges, OnInit, Output } from '@angular/core';
-import { ListType } from './types';
+import { ListType } from '../types';
 
 @Component({
   selector: 'app-waste-list',

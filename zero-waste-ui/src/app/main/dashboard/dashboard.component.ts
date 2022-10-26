@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ListType } from './waste-list/types';
+import { ListType } from './types';
 
 @Component({
   selector: 'app-dashboard',
