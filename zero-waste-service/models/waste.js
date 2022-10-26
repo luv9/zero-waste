@@ -11,6 +11,4 @@ const wasteSchema = new Schema({
 
 const waste = mongoose.model("waste", wasteSchema);
 
-module.exports = {
-    waste
-}
+module.exports = waste
