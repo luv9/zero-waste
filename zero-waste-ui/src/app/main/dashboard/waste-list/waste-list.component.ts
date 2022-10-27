@@ -37,8 +37,8 @@ export class WasteListComponent implements OnInit {
     }]
   }
 
-  binSelected(x:ListType){
-    this.selectedBin.emit(x);
+  binSelected(x?:ListType){
+    this.selectedBin.emit(x??{key:"soni"});
   }
 
 }

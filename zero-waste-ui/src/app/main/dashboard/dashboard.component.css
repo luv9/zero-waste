@@ -1,4 +1,15 @@
-.left-panel{
-    width: 40%;
-    height: 100%;
+.left-panel {
+  width: 40%;
+  height: 100%;
+  border: 1px solid black;
+}
+
+.right-panel {
+  width: 60%;
+  height: 100%;
+  border: 1px solid black;
+}
+
+.dashboard-component {
+  display: flex;
 }
