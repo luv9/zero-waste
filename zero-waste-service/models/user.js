@@ -7,7 +7,7 @@ const userSchema = new Schema({
     email: {type: String, required: [true, ""]},
     password: {type: String, required: [true, ""]},
     isAlexaIntegrated: {type: Boolean, required: [true, ""]},
-})
+}, {collection: "user"})
 
 const user = mongoose.model("user", userSchema);
 

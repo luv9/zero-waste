@@ -7,7 +7,7 @@ const wasteSchema = new Schema({
     date: {type: Date, required: [true, ""]},
     totalWeight: {type: Number, required: [true, ""]},
     currentWeight: {type: Number, min: [0, "Weight cannot be negative"], required: [true, ""]},
-})
+}, {collection: "waste"})
 
 const waste = mongoose.model("waste", wasteSchema);
 

@@ -8,7 +8,7 @@ const binSchema = new Schema({
     userId: {type: Schema.Types.ObjectId, required: [true, ""], ref: "user"},
     status: {type: String, required: [true, ""], 
     enum: ["Full", "Fillable"], default: "Fillable",},
-})
+}, {collection: "bin"})
 
 const bin = mongoose.model("bin", binSchema);
 
