@@ -8,8 +8,8 @@ router.get('/', function (req, res) {
 
 router.post('/', function (req, res) {
     const binId = req.body.id;
-    const fromDate = req.body.fromDate;
-    const toDate = req.body.toDate;
+    const fromDate = new Date(req.body.fromDate);
+    const toDate = new Date(req.body.toDate);
     if(binId == null || fromDate == null || toDate == null || !(fromDate instanceof Date) || !(toDate instanceof Date)) {
         return res.status(500).send("Input format is incorrect")
     }
