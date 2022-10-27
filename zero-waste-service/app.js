@@ -1,16 +1,23 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const config = require('./config/config')
-
+const path = require('path')
 const app = express()
+app.use(express.static(path.join(__dirname, 'public')));
+
+const config = require('./config/config')
+const routes = require('./routes/index')
+
+
 const port = config.port;
 const mongoUrl = config.mongoUrl;
 
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 
-app.get('/', (req, res) => {
-  res.send('<b>Zero Waste</b> website coming soon!')
-})
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("/", routes);
+
+
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`)
