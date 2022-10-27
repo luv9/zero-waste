@@ -8,6 +8,7 @@ const userSchema = new Schema({
     password: {type: String, required: [true, ""]},
     isAlexaIntegrated: {type: Boolean, required: [true, ""]},
 }, {collection: "user"})
+//TODO: alexaDetails: json
 
 const user = mongoose.model("user", userSchema);
 
