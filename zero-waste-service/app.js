@@ -14,7 +14,7 @@ const mongoUrl = config.mongoUrl;
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use("/", routes);
 
 

@@ -11,10 +11,10 @@ router.post('/', function (req, res) {
     const fromDate = req.body.fromDate;
     const toDate = req.body.toDate;
     if(binId == null || fromDate == null || toDate == null || !(fromDate instanceof Date) || !(toDate instanceof Date)) {
-        throw new Error("Input format is incorrect")
+        return res.status(500).send("Input format is incorrect")
     }
     if(fromDate > toDate) {
-        throw new Error("From date is greater than To date")
+        return res.status(500).send("From date is greater than To date")
     }
 
     const waste = models.waste;
@@ -27,9 +27,10 @@ router.post('/', function (req, res) {
     .lte(toDate)
     .select(totalWeight)
     .exec((err, weights) => {
-        if (err) return "Error with fetching data";
+        if (err) 
+            return res.status(500).send("Error with fetching data");
         
-        return weights.reduce((a, b) => a + b, 0)
+        return res.status(200).send(weights.reduce((a, b) => a + b, 0))
     })
 
 })
