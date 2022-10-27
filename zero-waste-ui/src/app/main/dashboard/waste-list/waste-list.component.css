@@ -1,0 +1,15 @@
+.waste-list {
+  /* background-color: blueviolet; */
+  padding: 20px 10px;
+}
+
+.bin-collection {
+  padding: 20px 5px;
+  border: 1px black solid;
+}
+
+.buttons-list {
+  display: flex;
+  flex-direction: column;
+  width: 65px;
+}

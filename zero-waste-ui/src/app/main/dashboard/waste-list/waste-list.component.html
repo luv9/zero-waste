@@ -1,0 +1,27 @@
+<div class="waste-list">
+  <!-- <p>waste-list works!</p>
+    Left Component
+
+    <button (click)="abc()">Show new component</button>
+
+    <div *ngIf="show2ndComponent" class="buttons-list">
+        <button *ngFor="let x of data" (click)="binSelected(x)">
+            {{x.key}}
+        </button>
+    </div> -->
+
+  <div class="bin-collection">
+    <div>
+      <button (click)="binSelected({ key: 'A' })">Bin-A</button>
+    </div>
+    <div>
+      <button (click)="binSelected({ key: 'B' })">Bin-B</button>
+    </div>
+    <div>
+      <button (click)="binSelected({ key: 'C' })">Bin-C</button>
+    </div>
+    <div>
+      <button (click)="binSelected({ key: 'D' })">Bin-D</button>
+    </div>
+  </div>
+</div>
