@@ -1,0 +1,7 @@
+.waste-details {
+  /* background-color: aqua; */
+  padding: 20px 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}

@@ -1,0 +1,22 @@
+.left-panel {
+  width: 40%;
+  height: 100%;
+  border: 1px solid black;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.right-panel {
+  width: 60%;
+  min-height: 100%;
+  border: 1px solid black;
+  margin-left: 10px;
+}
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.panels {
+  display: flex;
+}

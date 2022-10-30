@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+
+div {
+  border: 0px black solid;
+}
+
+p {
+  margin: 0px !important;
+}
+
+.main-body {
+  margin: 0px !important;
+}
