@@ -4,24 +4,20 @@ import { ListType } from './types';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
+  selectedBin: ListType;
 
-  selectedBin:ListType;
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
-  }
-
-  changeBin(x:ListType){
-    console.log (x.key);
+  changeBin(x: ListType) {
     this.displayBinDetails(x);
   }
 
-  displayBinDetails(x:ListType){
-    this.selectedBin=x;
+  displayBinDetails(x: ListType) {
+    this.selectedBin = x;
   }
-
 }
