@@ -1,1 +1,1 @@
-export * from './waste-list-type'
+export * from './waste-list-type';

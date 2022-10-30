@@ -50,7 +50,7 @@ export class WasteDetailsComponent implements OnInit {
   filterData(range: string) {
     this.model.option = range;
     this.single = this.allData;
-    this.single = this.single.slice(0, range == 'past_10' ? 9 : 30);
+    this.single = this.single.slice(0, range == 'past_10' ? 10 : 31);
   }
 
   generateRandomData() {

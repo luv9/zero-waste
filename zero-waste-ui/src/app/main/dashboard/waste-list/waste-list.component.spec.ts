@@ -8,9 +8,8 @@ describe('WasteListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WasteListComponent ]
-    })
-    .compileComponents();
+      declarations: [WasteListComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(WasteListComponent);
     component = fixture.componentInstance;
