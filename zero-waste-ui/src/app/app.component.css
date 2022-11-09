@@ -1,0 +1,11 @@
+
+
+.img{
+    position: absolute;
+    background:url('logo.png');
+    width:auto;
+    height:auto; 
+    bottom: 3%; 
+    right: 1%;
+    opacity: 60%;
+}
