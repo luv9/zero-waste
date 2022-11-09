@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "server": "cd zero-waste-service && npm i -f && npm run start",
+    "client": "cd zero-waste-ui && npm i -f && npm run start",
+    "start": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "devDependencies": {
+    "concurrently": "7.5.0"
+  }
+}
