@@ -176,4 +176,91 @@ router.post("/data", verifyToken, function (req, res) {
     });
 });
 
+router.post('/save', async function(req, res) {
+    const binId = req.body.binId;
+    let wt = req.body.weight;
+    const today = new Date().toISOString().slice(0, 10);
+    let yesterday = new Date();
+    let totalWeight = 0;
+    let dataFound = false;
+    let entryId;
+    let errorWithDB = false;
+    yesterday.setDate(yesterday.getDate() - 1);
+    yesterday = yesterday.toISOString().slice(0, 10);
+    const waste = models.waste;
+    waste.findOne()
+    .where("binId")
+    .equals(binId)
+    .where("date")
+    .equals(today)
+    .exec((err, entry) => {
+        if(err) {
+            errorWithDB = true;
+            return res.status(500).send("Error with database")
+        }
+        if(entry) {
+            dataFound = true;
+            entryId = entry._id;
+            if(wt > 0.000001) {
+                totalWeight = entry.totalWeight + (wt - entry.currentWeight);
+            }
+        }
+    })
+    if(errorWithDB) {
+        return;
+    }
+    if(dataFound) {
+        let doc = await waste.findByIdAndUpdate(entryId, {totalWeight: totalWeight, currentWeight: wt});
+        return res.status(200).send("Data updated successfully!")
+    } else {
+        waste.findOne()
+        .where("binId")
+        .equals(binId)
+        .where("date")
+        .equals(yesterday)
+        .exec((err, entry) => {
+            if(err) {
+                errorWithDB = true;
+                return res.status(500).send("Error with database")
+            }
+            if(entry) {
+                dataFound = true;
+                entryId = entry._id;
+                if(wt > 0.000001 && wt > entry.currentWeight) {
+                    totalWeight = wt - entry.currentWeight;
+                }
+            }
+        })
+        if(errorWithDB) {
+            return;
+        }
+        if(dataFound) {
+            const newEntry = new waste({currentWeight: wt, totalWeight: totalWeight, binId: binId, date: today})
+            newEntry.save(function(error) {
+                if (error){
+                    console.log(error);
+                    return res.status(500).send("Some error occurred while saving")
+                }
+                else{
+                    console.log("Data saved successfully")
+                    return res.status(200).send("Data saved successfully")
+                }
+            })
+            
+        } else {
+            const newEntry = new waste({currentWeight: wt, totalWeight: wt, binId: binId, date: today})
+            newEntry.save(function(error) {
+                if (error){
+                    console.log(error);
+                    return res.status(500).send("Some error occurred while saving")
+                }
+                else{
+                    console.log("Data saved successfully")
+                    return res.status(200).send("Data saved successfully")
+                }
+            })
+        }
+    } 
+})
+
 module.exports = router;
