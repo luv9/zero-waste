@@ -1,9 +1,16 @@
 const express = require('express')
 const router = express.Router();
 const models = require('../models/index')
+const verifyToken = require('../controllers/authJWT')
 
-router.post('/', function (req, res) {
+router.post('/', verifyToken, function (req, res) {
     const userId = req.body.userId;
+    if (!req.verifiedUser) {
+        return res.status(403)
+            .send({
+            message: "Invalid JWT token/User not authorised"
+            });
+    }
     if(userId == null) {
         throw new Error("Input format is incorrect")
     }
@@ -20,7 +27,16 @@ router.post('/', function (req, res) {
     })
 })
 
-router.post('/save', function (req, res) {
+router.post('/save', verifyToken, function (req, res) {
+    
+    console.log(req.verifiedUser)
+    if (!req.verifiedUser) {
+        return res.status(403)
+            .send({
+            message: "Invalid JWT token/User not authorised"
+            });
+    }
+    // if(!req.verifyToken)
     const name = req.body.name;
     const pid = req.body.pid;
     const userId = req.body.userId;
@@ -32,27 +48,39 @@ router.post('/save', function (req, res) {
 
     const bin = models.bin;
 
+    const User = models.user;
+
     const newBin = new bin({ name, pid, userId, status })
 
-    bin.countDocuments({pid: pid, userId: userId}, function (err, count) {
-    
+    User.countDocuments({_id:userId}, function(err, count) {
         if (err) {
             return res.status(500).send("Some error occurred with fetching details from db");
         }
-        if (count > 0) {
-            return res.status(500).send("Bin already exists for the user")
+        if (count == 0) {
+            return res.status(500).send("User not found")
+        } else {
+            bin.countDocuments({pid: pid, userId: userId}, function (err, count) {
+    
+                if (err) {
+                    return res.status(500).send("Some error occurred with fetching details from db");
+                }
+                if (count > 0) {
+                    return res.status(500).send("Bin already exists for the user")
+                }
+                newBin.save(function(error) {
+                    if (error){
+                        console.log(error);
+                        return res.status(500).send("Some error occurred while saving")
+                    }
+                    else{
+                        console.log("Bin saved successfully")
+                        return res.status(200).send("Bin saved successfully")
+                    }
+                })
+            })
         }
-        newBin.save(function(error) {
-            if (error){
-                console.log(error);
-                return res.status(500).send("Some error occurred while saving")
-            }
-            else{
-                console.log("Bin saved successfully")
-                return res.status(200).send("Bin saved successfully")
-            }
-        })
     })
+    
 })
 
 module.exports = router;
