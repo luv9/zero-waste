@@ -51,7 +51,6 @@ router.post('/logout', function(req, res) {
 })
 
 router.post('/login', async function (req, res) {
-    console.log("User logged in")
     const user = models.user;
     const email = req.body.email;
     const password = req.body.password;
@@ -63,31 +62,32 @@ router.post('/login', async function (req, res) {
         }
         if(!user) {
             return res.status(404).send("Couldn't find the user")
+        } else {
+            bcrypt.compare(password, entry.password, function(err, isValid){
+                if(err) {
+                    return res.status(500).send("Some error occurrred. Please try again in some time.")
+                }
+                if(!isValid) {
+                    return res.status(401).send("Invalid password")
+                } else {
+                    const token = jwt.sign({
+                        id: entry._id
+                        }, config.secret_key, {
+                        expiresIn: 86400
+                    });
+                    res.cookie('token', token, { httpOnly: true });
+                    res.status(200)
+                    .send({
+                      user: {
+                        id: entry._id,
+                        email: entry.email,
+                        fullName: entry.name,
+                      },
+                      message: "Login successful",
+                    });
+                }
+            })
         }
-        bcrypt.compare(password, entry.password, function(err, isValid){
-            if(err) {
-                return res.status(500).send("Some error occurrred. Please try again in some time.")
-            }
-            if(!isValid) {
-                return res.status(401).send("Invalid password")
-            } else {
-                const token = jwt.sign({
-                    id: entry._id
-                    }, config.secret_key, {
-                    expiresIn: 86400
-                });
-                res.cookie('token', token, { httpOnly: true });
-                res.status(200)
-                .send({
-                  user: {
-                    id: entry._id,
-                    email: entry.email,
-                    fullName: entry.name,
-                  },
-                  message: "Login successful",
-                });
-            }
-        })
         
     });
 })
