@@ -60,7 +60,7 @@ router.post('/login', async function (req, res) {
         if(err) {
             return res.status(500).send("Some error occurred with fetching details from db")
         }
-        if(!user) {
+        if(!entry) {
             return res.status(404).send("Couldn't find the user")
         } else {
             bcrypt.compare(password, entry.password, function(err, isValid){
