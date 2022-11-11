@@ -70,23 +70,25 @@ router.post('/login', async function (req, res) {
             }
             if(!isValid) {
                 return res.status(401).send("Invalid password")
+            } else {
+                const token = jwt.sign({
+                    id: entry._id
+                    }, config.secret_key, {
+                    expiresIn: 86400
+                });
+                res.cookie('token', token, { httpOnly: true });
+                res.status(200)
+                .send({
+                  user: {
+                    id: entry._id,
+                    email: entry.email,
+                    fullName: entry.name,
+                  },
+                  message: "Login successful",
+                });
             }
         })
-        const token = jwt.sign({
-            id: entry._id
-            }, config.secret_key, {
-            expiresIn: 86400
-        });
-        res.cookie('token', token, { httpOnly: true });
-        res.status(200)
-        .send({
-          user: {
-            id: entry._id,
-            email: entry.email,
-            fullName: entry.name,
-          },
-          message: "Login successful",
-        });
+        
     });
 })
 
