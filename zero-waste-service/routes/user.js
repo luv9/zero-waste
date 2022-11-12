@@ -4,6 +4,7 @@ const models = require('./../models/index')
 const bcrypt = require("bcrypt")
 const config = require("../config/config")
 const jwt = require("jsonwebtoken")
+const verifyToken = require('../controllers/authJWT')
 
 router.get('/', function (req, res) {
     res.send("User routes go here");
@@ -90,6 +91,20 @@ router.post('/login', async function (req, res) {
         }
         
     });
+})
+
+router.post('/loggedInOrNot', verifyToken, function (req, res) {
+    if (!req.verifiedUser) {
+        return res.status(403)
+            .send({
+                message: "Invalid JWT token/User not authorised"
+            });
+    } else {
+        return res.status(200)
+            .send({
+                message: "JWT Token is not expired. User is authorised"
+            })
+    }
 })
 
 module.exports = router;
