@@ -1,21 +1,32 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './main/dashboard/dashboard.component';
-import { WasteListComponent } from './main/dashboard/waste-list/waste-list.component';
-import { WasteDetailsComponent } from './main/dashboard/waste-details/waste-details.component';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app-routing.module';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { WasteDetailsComponent } from './main/home/dashboard/waste-details/waste-details.component';
+import { WasteListComponent } from './main/home/dashboard/waste-list/waste-list.component';
+import { DashboardComponent } from './main/home/dashboard/dashboard.component';
+import { HomeComponent } from './main/home/home.component';
+import { ProfileComponent } from './main/home/profile/profile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     DashboardComponent,
     WasteListComponent,
     WasteDetailsComponent,
+    ProfileComponent,
   ],
-  imports: [BrowserModule, BrowserAnimationsModule, NgxChartsModule],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    NgxChartsModule,
+    HttpClientModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
