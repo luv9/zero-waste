@@ -43,7 +43,7 @@
 }
 
 .img-logo {
-  background: url("logo.png");
+  background: url("../../../assets/logo.png");
   width: 150px;
   height: auto;
   opacity: 60%;
