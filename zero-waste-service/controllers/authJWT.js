@@ -14,14 +14,14 @@ const verifyToken = (req, res, next) => {
         user.findOne({
             _id: decode.id
           })
-          .exec((err, user) => {
+          .exec((err, User) => {
             if (err) {
               res.status(500)
                 .send({
                   message: err
                 });
             } else {
-              req.verifiedUser = user;
+              req.verifiedUser = User;
               next();
             }
           })
