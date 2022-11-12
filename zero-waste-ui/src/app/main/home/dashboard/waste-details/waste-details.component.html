@@ -4,6 +4,7 @@
       <input
         type="radio"
         name="options"
+        class="radio-btn"
         (click)="rangeSelected(radiobutton)"
         [checked]="radiobutton.key === model.option"
       />{{ radiobutton.value }}
@@ -15,7 +16,7 @@
     style="display: flex; flex-direction: column"
   >
     <ngx-charts-bar-vertical
-      [view]="[500, 400]"
+      [view]="[650, 400]"
       [scheme]="colorScheme"
       [results]="single"
       [gradient]="gradient"

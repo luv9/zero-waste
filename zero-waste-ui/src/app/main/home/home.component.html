@@ -1,0 +1,23 @@
+<div class="home">
+  <div class="heading">
+    <img class="img-logo" src="logo.png" />
+    <h1 class="main-heading">ZeroWaste</h1>
+    <button class="btn btn-light logout" (click)="logout()">Logout</button>
+  </div>
+  <div class="home-body">
+    <div class="buttons-section">
+      <button class="btn btn-light" (click)="changeToDashboard()">
+        Dashboard
+      </button>
+      <button class="btn disabled" disabled>E-waste Recycle</button>
+      <button class="btn disabled" disabled>Garbage Calendar</button>
+      <button class="btn disabled" disabled>Analysis</button>
+      <button class="btn profile" (click)="changeToProfileSection()">
+        <img class="img-profile" src="./profile-icon.png" />
+      </button>
+    </div>
+
+    <app-dashboard *ngIf="isDashboardActive"></app-dashboard>
+    <app-profile *ngIf="isProfileActive"></app-profile>
+  </div>
+</div>

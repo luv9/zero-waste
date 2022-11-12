@@ -1,6 +1,5 @@
-
-.text1{
-  font-family: 'arial';
+.text1 {
+  font-family: "arial";
   font-style: italic;
   font-weight: bold;
   text-align: center;
@@ -9,21 +8,14 @@
   color: blueviolet;
   font-size: 25px;
   letter-spacing: 2px;
-  top: 50%;
-  position: relative;
-  margin-top: -40px;
-  
-  text-shadow: -1px -10px 0px blue,
-    3px 3px 0px blue,
-    6px 6px 0px blue 900;
+  text-shadow: -1px -10px 0px blue, 3px 3px 0px blue, 6px 6px 0px blue 900;
 }
 
 .left-panel {
   width: 40%;
   height: 100%;
   border: 1px solid black;
-  padding-top: 80px;
-  padding-bottom: 80px;
+  padding-top: 20px;
 }
 
 .right-panel {
@@ -40,4 +32,3 @@
 .panels {
   display: flex;
 }
-
