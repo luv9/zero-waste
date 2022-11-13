@@ -38,4 +38,8 @@ export class AuthService {
       { responseType: 'text' }
     );
   }
+
+  isLoggedIn() {
+    return this.http.post(AUTH_API + 'loggedInOrNot', httpOptions);
+  }
 }
