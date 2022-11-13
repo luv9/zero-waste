@@ -16,6 +16,7 @@ export class RegisterComponent implements OnInit {
   };
   isSuccessful = false;
   isSignUpFailed = false;
+  registerBtnDisabled = false;
   errorMessage = '';
 
   constructor(private authService: AuthService, private router: Router) {}
@@ -23,6 +24,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(): void {
+    this.registerBtnDisabled = true;
     const { username, email, password } = this.form;
 
     this.authService.register(username, email, password).subscribe(
@@ -35,6 +37,7 @@ export class RegisterComponent implements OnInit {
       (err) => {
         this.errorMessage = err.error;
         this.isSignUpFailed = true;
+        this.registerBtnDisabled = false;
       }
     );
   }

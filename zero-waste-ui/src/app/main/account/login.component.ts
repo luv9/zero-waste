@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
   errorMessage = '';
   redirectedFromSignUp = false;
+  loginBtnDisabled = false;
 
   constructor(
     private authService: AuthService,
@@ -37,6 +38,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.loginBtnDisabled = true;
     const { email, password } = this.form;
 
     this.authService.login(email, password).subscribe(
@@ -51,6 +53,7 @@ export class LoginComponent implements OnInit {
       (err) => {
         this.errorMessage = err.error;
         this.isLoginFailed = true;
+        this.loginBtnDisabled = false;
       }
     );
   }

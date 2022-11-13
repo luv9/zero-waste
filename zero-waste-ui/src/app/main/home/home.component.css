@@ -36,6 +36,9 @@
 .buttons-section {
   margin-bottom: 5px;
 }
+.buttons-section .btn {
+  margin-right: 10px;
+}
 
 .img-profile {
   width: 30px;
