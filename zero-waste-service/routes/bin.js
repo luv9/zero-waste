@@ -85,7 +85,7 @@ router.post('/save', verifyToken, function (req, res) {
 
 
 
-router.post('/update', verifyToken, function (req, res) {
+router.post('/update', verifyToken, async function (req, res) {
     
     console.log(req.verifiedUser)
     if (!req.verifiedUser) {
