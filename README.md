@@ -1,7 +1,8 @@
 # zero-waste
+
 Zero Waste - ASE Project
 
-This repo will serve as the codebase for our project work in the course ASE, MAC - Fall 2022. 
+This repo will serve as the codebase for our project work in the course ASE, MAC - Fall 2022.
 
 **Zero Waste Service - Backend Setup and Instructions**
 
@@ -16,11 +17,9 @@ git clone https://github.com/luv9/zero-waste.git
 Commands used to create the project(no need to run these commands, these are just for reference):
 npm init - for package.json
 
-npm install express 
+npm install express
 
 For mongo installation and setup, please follow the instructions from official website.
-
-
 
 For running mongodb server on MacOS(M1):
 Open a new terminal window. Run the following commands:
@@ -29,7 +28,7 @@ brew services start mongodb-community@6.0
 
 mongod --config /opt/homebrew/etc/mongod.conf --fork
 
-In a new terminal window, run the command ***mongosh***. This will create a connection with mongodb instance and now we can run queries on this database. 
+In a new terminal window, run the command **_mongosh_**. This will create a connection with mongodb instance and now we can run queries on this database.
 
 Mongo collections created: user, bin, waste.
 
@@ -37,18 +36,13 @@ DB Name: zero_waste
 
 Config connection to mongo is stored in config/config.js
 
-
-
-***Instructions to run the backend server***
+**_Instructions to run the backend server_**
 
 Backend server will be running on port 3000
 go to folder zero-waste/zero-waste-service, and type these commands:
 
-
 npm install
 npm start
-
-
 
 References:
 
@@ -59,4 +53,3 @@ https://expressjs.com/en/starter/hello-world.html
 https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/
 
 https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose
-
