@@ -3,6 +3,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  font-weight: 300px;
 }
 
 .radio-btn {
