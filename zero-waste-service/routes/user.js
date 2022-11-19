@@ -1,10 +1,10 @@
-const express = require('express')
+const express = require("express");
 const router = express.Router();
-const models = require('./../models/index')
-const bcrypt = require("bcrypt")
-const config = require("../config/config")
-const jwt = require("jsonwebtoken")
-const verifyToken = require('../controllers/authJWT')
+const models = require("./../models/index");
+const bcrypt = require("bcrypt");
+const config = require("../config/config");
+const jwt = require("jsonwebtoken");
+const verifyToken = require("../controllers/authJWT");
 
 router.get('/', verifyToken, function (req, res) {
     console.log("Token while querying api: " + req.cookies.token);
@@ -21,41 +21,52 @@ router.get('/', verifyToken, function (req, res) {
     
 })
 
-router.post('/signup', async function (req, res) {
-    const user = models.user;
-    const email = req.body.email;
-    const name = req.body.name;
-    const password = req.body.password;
+router.post("/signup", async function (req, res) {
+  const user = models.user;
+  const email = req.body.email;
+  const name = req.body.name;
+  const password = req.body.password;
 
-    if(email == undefined || email == "" || name == undefined || name == "" || password == undefined || password == "") {
-        return res.status(500).send("Invalid details")
+  if (
+    email == undefined ||
+    email == "" ||
+    name == undefined ||
+    name == "" ||
+    password == undefined ||
+    password == ""
+  ) {
+    return res.status(500).send("Invalid details");
+  }
+
+  const salt = await bcrypt.genSalt(config.salt);
+  const hash = await bcrypt.hash(req.body.password, salt);
+
+  user.countDocuments({ email: email }, function (err, count) {
+    if (err) {
+      return res
+        .status(500)
+        .send("Some error occurred with fetching details from db");
     }
-
-    const salt = await bcrypt.genSalt(config.salt);
-    const hash = await bcrypt.hash(req.body.password, salt)
-
-
-    user.countDocuments({email: email}, function (err, count) {
-        if(err) {
-            return res.status(500).send("Some error occurred with fetching details from db")
-        }
-        if(count > 0) {
-            return res.status(500).send("Email already exists")
-        }
-        const newUser = new user({name: name, email: email, password: hash, isAlexaIntegrated: false})
-        newUser.save(function(error) {
-            if (error){
-                console.log(error);
-                return res.status(500).send("Some error occurred while saving")
-            }
-            else{
-                console.log("User saved successfully")
-                return res.status(200).send("User saved successfully")
-            }
-        })
-    })
-
-})
+    if (count > 0) {
+      return res.status(500).send("Email already exists");
+    }
+    const newUser = new user({
+      name: name,
+      email: email,
+      password: hash,
+      isAlexaIntegrated: false,
+    });
+    newUser.save(function (error) {
+      if (error) {
+        console.log(error);
+        return res.status(500).send("Some error occurred while saving");
+      } else {
+        console.log("User saved successfully");
+        return res.status(200).send("User saved successfully");
+      }
+    });
+  });
+});
 
 router.post('/logout', verifyToken, function(req, res) {
     console.log("Token deleted in logout")
@@ -103,22 +114,19 @@ router.post('/login', async function (req, res) {
                 }
             })
         }
-        
     });
-})
+});
 
-router.post('/loggedInOrNot', verifyToken, function (req, res) {
-    if (!req.verifiedUser) {
-        return res.status(403)
-            .send({
-                message: "Invalid JWT token/User not authorised"
-            });
-    } else {
-        return res.status(200)
-            .send({
-                message: "JWT Token is not expired. User is authorised"
-            })
-    }
-})
+router.post("/loggedInOrNot", verifyToken, function (req, res) {
+  if (!req.verifiedUser) {
+    return res.status(403).send({
+      message: "Invalid JWT token/User not authorised",
+    });
+  } else {
+    return res.status(200).send({
+      message: "JWT Token is not expired. User is authorised",
+    });
+  }
+});
 
 module.exports = router;

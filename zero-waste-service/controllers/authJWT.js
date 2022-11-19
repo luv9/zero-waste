@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 const user = require("../models/user");
-const config = require("../config/config")
+const config = require("../config/config");
 
 const verifyToken = (req, res, next) => {
-
-    if (req.cookies.token) {
+    const token = req.cookies?.token ?? req.header('token');
+    if (token) {
         jwt.verify(req.cookies.token, config.secret_key, function (err, decode) {
         if (err) {
             req.verifiedUser = undefined;
