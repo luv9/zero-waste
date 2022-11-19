@@ -67,7 +67,8 @@
               "browserTarget": "zero-waste-ui:build:production"
             },
             "development": {
-              "browserTarget": "zero-waste-ui:build:development"
+              "browserTarget": "zero-waste-ui:build:development",
+              "proxyConfig": "src/proxy.conf.js"
             }
           },
           "defaultConfiguration": "development"

@@ -6,8 +6,19 @@ const config = require("../config/config")
 const jwt = require("jsonwebtoken")
 const verifyToken = require('../controllers/authJWT')
 
-router.get('/', function (req, res) {
-    res.send("User routes go here");
+router.get('/', verifyToken, function (req, res) {
+    console.log("Token while querying api: " + req.cookies.token);
+    if (!req.verifiedUser) {
+        
+        return res.status(403)
+            .send({
+                message: "Invalid JWT token/User not authorised"
+            });
+    } else {
+        return res.status(200)
+            .send("User routes go here")
+    }
+    
 })
 
 router.post('/signup', async function (req, res) {
@@ -46,8 +57,9 @@ router.post('/signup', async function (req, res) {
 
 })
 
-router.post('/logout', function(req, res) {
-    res.cookie('token', undefined, { httpOnly: true });
+router.post('/logout', verifyToken, function(req, res) {
+    console.log("Token deleted in logout")
+    res.clearCookie('token')
     return res.status(200).send({"logout": "true"})
 })
 
@@ -55,6 +67,8 @@ router.post('/login', async function (req, res) {
     const user = models.user;
     const email = req.body.email;
     const password = req.body.password;
+    console.log('Deleting token before starting login')
+    res.clearCookie('token')
     user.findOne({
         email: email
     }).exec((err, entry) => {
