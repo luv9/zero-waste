@@ -27,6 +27,31 @@ router.post("/", verifyToken, function (req, res) {
     });
 });
 
+router.get("/weight/:binId", verifyToken, function (req, res) {
+  const binId = req.params.binId;
+  if (!req.verifiedUser) {
+    return res.status(403).send({
+      message: "Invalid JWT token/User not authorised",
+    });
+  }
+  if (binId == null) {
+    throw new Error("Input format is incorrect");
+  }
+
+  const waste = models.waste;
+  waste
+    .find()
+    .where("binId")
+    .equals(binId)
+    .select("currentWeight date")
+    .sort({ date: -1 })
+    .exec((err, result) => {
+      if (err) return "Error with fetching data";
+
+      return res.status(200).send('' + result[0].currentWeight);
+    });
+});
+
 router.post("/save", verifyToken, function (req, res) {
   console.log(req.verifiedUser);
   if (!req.verifiedUser) {

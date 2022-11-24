@@ -46,6 +46,35 @@ router.post("/", verifyToken, function (req, res) {
     });
 });
 
+router.post("/saveManual", verifyToken, async function (req, res) {
+    if (!req.verifiedUser) {
+      return res.status(403).send({
+        message: "Invalid JWT token/User not authorised",
+      });
+    }
+    const binId = req.body.binId;
+    let currentWeight = req.body.currentWeight;
+    let totalWeight = req.body.totalWeight;
+    let date = new Date().toISOString().slice(0, 10);
+    const waste = models.waste;
+    const newEntry = new waste({
+        currentWeight: currentWeight,
+        totalWeight: totalWeight,
+        binId: binId,
+        date: date,
+      });
+      newEntry.save(function (error) {
+        if (error) {
+          console.log(error);
+          return res
+            .status(500)
+            .send("Some error occurred while saving");
+        } else {
+          return res.status(200).send("Data saved successfully");
+        }
+      });
+  });
+
 router.post("/save", verifyToken, async function (req, res) {
   console.log("hereeeee");
   if (!req.verifiedUser) {

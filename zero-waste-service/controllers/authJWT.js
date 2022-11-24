@@ -5,7 +5,7 @@ const config = require("../config/config");
 const verifyToken = (req, res, next) => {
     const token = req.cookies?.token ?? req.header('token');
     if (token) {
-        jwt.verify(req.cookies.token, config.secret_key, function (err, decode) {
+        jwt.verify(token, config.secret_key, function (err, decode) {
         if (err) {
             req.verifiedUser = undefined;
             console.log("Token deleted in middleware - jwt verify error")
