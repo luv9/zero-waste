@@ -10,6 +10,7 @@ import { WasteListComponent } from './main/home/dashboard/waste-list/waste-list.
 import { DashboardComponent } from './main/home/dashboard/dashboard.component';
 import { HomeComponent } from './main/home/home.component';
 import { ProfileComponent } from './main/home/profile/profile.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ProfileComponent } from './main/home/profile/profile.component';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    FormsModule,
     NgxChartsModule,
     HttpClientModule,
   ],

@@ -1,11 +1,13 @@
 import {
   Component,
   EventEmitter,
+  Input,
   OnChanges,
   OnInit,
   Output,
 } from '@angular/core';
-import { ListType } from '../types';
+import { AuthService } from 'src/app/_services/auth.service';
+import { BinType, ListType } from '../types';
 
 @Component({
   selector: 'app-waste-list',
@@ -15,12 +17,13 @@ import { ListType } from '../types';
 export class WasteListComponent {
   constructor() {}
 
-  @Output() selectedBin = new EventEmitter();
+  @Output() selectedBinId = new EventEmitter();
 
+  @Input() binCollection: BinType[] = [];
   data: ListType[];
   show2ndComponent = false;
 
-  binSelected(x?: ListType) {
-    this.selectedBin.emit(x ?? { key: 'test' });
+  binSelected(id: string) {
+    this.selectedBinId.emit(id);
   }
 }

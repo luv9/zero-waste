@@ -1,4 +1,9 @@
 export interface ListType {
   key: string;
-  value?: number;
+}
+
+export interface BinType {
+  name: string;
+  _id: string;
+  status: string;
 }

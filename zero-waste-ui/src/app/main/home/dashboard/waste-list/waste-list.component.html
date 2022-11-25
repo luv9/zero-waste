@@ -4,36 +4,10 @@
       <button
         class="button-64"
         role="button"
-        (click)="binSelected({ key: 'A' })"
+        *ngFor="let bin of binCollection"
+        (click)="binSelected(bin._id)"
       >
-        <span class="text">Kitchen Waste</span>
-      </button>
-    </div>
-    <div class="buttons-list">
-      <button
-        class="button-64"
-        role="button"
-        (click)="binSelected({ key: 'B' })"
-      >
-        <span class="text">Master Bedroom</span>
-      </button>
-    </div>
-    <div class="buttons-list">
-      <button
-        class="button-64"
-        role="button"
-        (click)="binSelected({ key: 'C' })"
-      >
-        <span class="text">Bedroom 2</span>
-      </button>
-    </div>
-    <div class="buttons-list">
-      <button
-        class="button-64"
-        role="button"
-        (click)="binSelected({ key: 'D' })"
-      >
-        <span class="text">Recycleable Waste</span>
+        <span class="text">{{ bin.name }}</span>
       </button>
     </div>
   </div>
