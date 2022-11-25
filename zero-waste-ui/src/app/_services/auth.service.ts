@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { TokenStorageService } from './token-storage.service';
 
-const AUTH_API = '/user/';
+const AUTH_API_USER = '/user/';
+const AUTH_API_BIN = '/bin/';
+const AUTH_API_WASTE = '/dashboard/';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -14,11 +17,48 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private tokenStorage: TokenStorageService
+  ) {}
+
+  getWasteDetailsByBinId(binId: string, fromDate: Date, toDate: Date) {
+    return this.http.post(
+      AUTH_API_WASTE,
+      {
+        binId,
+        fromDate,
+        toDate,
+      },
+      httpOptions
+    );
+  }
+
+  getAllBins() {
+    return this.http.post(
+      AUTH_API_BIN,
+      {
+        userId: this.tokenStorage.getToken(),
+      },
+      httpOptions
+    );
+  }
+
+  addNewBin(name: string, productId: string) {
+    return this.http.post(
+      AUTH_API_BIN + 'save',
+      {
+        name,
+        pid: productId,
+        userId: this.tokenStorage.getToken(),
+      },
+      { responseType: 'text' }
+    );
+  }
 
   login(email: string, password: string): Observable<any> {
     return this.http.post(
-      AUTH_API + 'login',
+      AUTH_API_USER + 'login',
       {
         email,
         password,
@@ -29,7 +69,7 @@ export class AuthService {
 
   register(username: string, email: string, password: string): Observable<any> {
     return this.http.post(
-      AUTH_API + 'signup',
+      AUTH_API_USER + 'signup',
       {
         name: username,
         email,
@@ -40,6 +80,6 @@ export class AuthService {
   }
 
   isLoggedIn() {
-    return this.http.post(AUTH_API + 'loggedInOrNot', httpOptions);
+    return this.http.post(AUTH_API_USER + 'loggedInOrNot', httpOptions);
   }
 }

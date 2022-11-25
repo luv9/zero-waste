@@ -19,7 +19,7 @@ router.post("/", verifyToken, function (req, res) {
     .find()
     .where("userId")
     .equals(userId)
-    .select("name userId status")
+    .select("name status")
     .exec((err, result) => {
       if (err) return "Error with fetching data";
 

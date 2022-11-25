@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ListType } from './types';
+import { BinType, ListType } from './types';
+import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { TokenStorageService } from 'src/app/_services/token-storage.service';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,17 +11,58 @@ import { TokenStorageService } from 'src/app/_services/token-storage.service';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
-  selectedBin: ListType;
+  selectedBinId: string;
+  getNewBinDetails = false;
+  addNewBinBtnDisabled = false;
+  binCollection: BinType[] = [];
 
-  ngOnInit(): void {}
+  form: any = {
+    binName: null,
+    productId: null,
+  };
 
-  changeBin(x: ListType) {
-    this.displayBinDetails(x);
+  ngOnInit(): void {
+    this.getAllBins();
   }
 
-  displayBinDetails(x: ListType) {
-    this.selectedBin = x;
+  getAllBins() {
+    this.authService.getAllBins().subscribe(
+      (data: any) => {
+        console.log(data);
+        this.binCollection = data;
+        this.selectedBinId = this.binCollection[0]._id;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+
+  changeBin(id: any) {
+    this.displayBinDetails(id);
+  }
+
+  displayBinDetails(id: string) {
+    this.selectedBinId = id;
+  }
+
+  addNewBin() {
+    this.getNewBinDetails = true;
+  }
+
+  onSubmit() {
+    const { binName, productId } = this.form;
+    this.authService.addNewBin(binName, productId).subscribe(
+      (data) => {
+        console.log(data);
+        this.getNewBinDetails = false;
+        this.getAllBins();
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 }
