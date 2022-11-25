@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const models = require("./../models/index");
-const verifyToken = require("./../controllers/authJWT");
+const { verifyToken } = require("./../controllers/authJWT");
 
 router.get("/", function (req, res) {
   res.send("All waste routes will be defined here");
