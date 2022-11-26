@@ -23,6 +23,7 @@ pipeline {
                 script{
                     sh"""
                     docker stop backend || true
+                    docker rm backend || true
                     docker run -p 8085:3000 --name backend -d krishnap1999/zerowaste-backend:${build_number}
                     docker ps
                     """
