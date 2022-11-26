@@ -11,7 +11,7 @@ pipeline {
                     sh"""
                     pwd
                     ls
-                    docker pull -t krishnap1999/zerowaste-backend:${build_number}
+                    docker pull krishnap1999/zerowaste-backend:${build_number}
                     docker image ls
                     """
                 }
