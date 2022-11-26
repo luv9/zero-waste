@@ -1,0 +1,28 @@
+pipeline {
+    agent any 
+    stages {
+        stage('Build') 
+        {
+            steps {
+                script{
+                    sh"""
+                    pwd
+                    ls
+                    docker build . -t krishnap1999/zerowaste-frontend:${BUILD_NUMBER}
+                    docker image ls
+                    """
+                }
+            }
+        }   
+        stage('push') 
+        {
+            steps {
+                script{
+                    sh"""
+                    docker image push krishnap1999/zerowaste-frontend:${BUILD_NUMBER}
+                    """
+                }
+            }
+        } 
+    }     
+}
