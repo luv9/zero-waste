@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AuthService } from 'src/app/_services/auth.service';
+import { BinType } from '../types';
 
 @Component({
   selector: 'app-waste-details',
@@ -9,7 +10,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 })
 export class WasteDetailsComponent implements OnInit {
   constructor(private authService: AuthService) {}
-  @Input() selectedBinId: string;
+  @Input() selectedBin: BinType;
   view = [700, 400];
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'],
@@ -26,27 +27,33 @@ export class WasteDetailsComponent implements OnInit {
   showYAxisLabel = true;
   yAxisLabel = 'Weight in KG';
   wasteCollection: { date: string; totalWeight: number }[] = [];
-
+  isDataFetching = false;
   radioItems: Array<{ key: string; value: string }>;
   model = { option: 'past_10' };
-
+  dimensions: [number, number] = [0, 0];
+  innerWidth: any;
+  innerHeight: any;
   ngOnChanges() {
     this.ngOnInit();
   }
 
   ngOnInit(): void {
+    this.innerWidth = window.innerWidth;
+    this.innerHeight = window.innerHeight;
+    this.dimensions = [this.innerWidth / 2, this.innerHeight / 2];
     this.radioItems = [
       { value: 'Past 10 Days', key: 'past_10' },
       { value: 'Past 30 Days', key: 'past_30' },
     ];
-    if (this.selectedBinId) this.getWasteDetailsByBinId(this.selectedBinId);
+    if (this.selectedBin) this.getWasteDetailsByBinId(this.selectedBin);
     this.showChart = true;
   }
 
-  getWasteDetailsByBinId(binId: string) {
+  getWasteDetailsByBinId(bin: BinType) {
+    this.isDataFetching = true;
     this.authService
       .getWasteDetailsByBinId(
-        binId,
+        bin._id,
         new Date(new Date().setDate(new Date().getDate() - 31)),
         new Date()
       )
@@ -57,9 +64,11 @@ export class WasteDetailsComponent implements OnInit {
             (waste) => (waste.date = new Date(waste.date).toDateString())
           );
           this.generateData();
+          this.isDataFetching = false;
         },
         (err) => {
           console.log(err);
+          this.isDataFetching = false;
         }
       );
   }

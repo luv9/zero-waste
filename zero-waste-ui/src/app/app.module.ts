@@ -11,6 +11,7 @@ import { DashboardComponent } from './main/home/dashboard/dashboard.component';
 import { HomeComponent } from './main/home/home.component';
 import { ProfileComponent } from './main/home/profile/profile.component';
 import { FormsModule } from '@angular/forms';
+import { APP_BASE_HREF } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { FormsModule } from '@angular/forms';
     NgxChartsModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [{ provide: APP_BASE_HREF, useValue: 'ui' }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

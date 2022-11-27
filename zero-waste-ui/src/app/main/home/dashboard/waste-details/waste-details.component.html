@@ -1,14 +1,27 @@
 <div class="waste-details">
+  <div class="list-label">{{ selectedBin.name }}</div>
   <div class="range-select">
-    <label *ngFor="let radiobutton of radioItems">
-      <input
-        type="radio"
-        name="options"
-        class="radio-btn"
-        (click)="rangeSelected(radiobutton)"
-        [checked]="radiobutton.key === model.option"
-      />{{ radiobutton.value }}
-    </label>
+    <div class="range-buttons">
+      <label *ngFor="let radiobutton of radioItems">
+        <input
+          type="radio"
+          name="options"
+          class="radio-btn"
+          (click)="rangeSelected(radiobutton)"
+          [checked]="radiobutton.key === model.option"
+        />{{ radiobutton.value }}
+      </label>
+    </div>
+    <div (click)="getWasteDetailsByBinId(selectedBin)">
+      <button
+        style="font-size: 24px; background-color: aqua; border-radius: 12px"
+      >
+        <i
+          class="fa fa-refresh"
+          [ngClass]="isDataFetching ? 'fa-spin' : ''"
+        ></i>
+      </button>
+    </div>
   </div>
   <div
     class="bar-chart"
@@ -16,7 +29,7 @@
     style="display: flex; flex-direction: column"
   >
     <ngx-charts-bar-vertical
-      [view]="[650, 400]"
+      [view]="dimensions"
       [scheme]="colorScheme"
       [results]="single"
       [gradient]="gradient"

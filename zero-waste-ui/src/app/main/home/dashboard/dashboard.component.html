@@ -1,68 +1,13 @@
 <div class="dashboard-component">
   <div class="panels">
     <div class="left-panel">
-      <div class="text1">CHOOSE YOUR BIN</div>
-      <button (click)="addNewBin()">Add new Bin</button>
-      <div *ngIf="getNewBinDetails" style="margin: 0 100px">
-        <form
-          name="form"
-          (ngSubmit)="f.form.valid && onSubmit()"
-          #f="ngForm"
-          novalidate
-        >
-          <div class="form-group">
-            <label for="username">Bin Name</label>
-            <input
-              type="text"
-              class="form-control"
-              name="binName"
-              [(ngModel)]="form.binName"
-              required
-              #name="ngModel"
-            />
-            <div
-              class="alert alert-danger"
-              role="alert"
-              *ngIf="name.errors && f.submitted"
-            >
-              Name is required!
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="password">Bin Product Id</label>
-            <input
-              type="text"
-              class="form-control"
-              name="productId"
-              [(ngModel)]="form.productId"
-              required
-              #id="ngModel"
-            />
-            <div
-              class="alert alert-danger"
-              role="alert"
-              *ngIf="id.errors && id.errors['required'] && f.submitted"
-            >
-              Product Id is required
-            </div>
-          </div>
-          <div class="form-group">
-            <button
-              class="btn btn-primary btn-block"
-              [disabled]="addNewBinBtnDisabled"
-            >
-              Save
-            </button>
-          </div>
-        </form>
-      </div>
       <app-waste-list
         [binCollection]="binCollection"
-        (selectedBinId)="changeBin($event)"
+        (selectedBin)="changeBin($event)"
       ></app-waste-list>
     </div>
     <div class="right-panel">
-      <app-waste-details [selectedBinId]="selectedBinId"></app-waste-details>
+      <app-waste-details [selectedBin]="selectedBin"></app-waste-details>
     </div>
   </div>
 </div>

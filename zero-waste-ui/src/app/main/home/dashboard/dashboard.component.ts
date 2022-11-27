@@ -13,15 +13,10 @@ import { AuthService } from 'src/app/_services/auth.service';
 export class DashboardComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
-  selectedBinId: string;
+  selectedBin: BinType;
   getNewBinDetails = false;
   addNewBinBtnDisabled = false;
   binCollection: BinType[] = [];
-
-  form: any = {
-    binName: null,
-    productId: null,
-  };
 
   ngOnInit(): void {
     this.getAllBins();
@@ -32,7 +27,7 @@ export class DashboardComponent implements OnInit {
       (data: any) => {
         console.log(data);
         this.binCollection = data;
-        this.selectedBinId = this.binCollection[0]._id;
+        this.selectedBin = this.binCollection[0];
       },
       (err) => {
         console.log(err);
@@ -40,29 +35,15 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  changeBin(id: any) {
-    this.displayBinDetails(id);
+  changeBin(bin: any) {
+    this.displayBinDetails(bin);
   }
 
-  displayBinDetails(id: string) {
-    this.selectedBinId = id;
+  displayBinDetails(bin: BinType) {
+    this.selectedBin = bin;
   }
 
   addNewBin() {
     this.getNewBinDetails = true;
-  }
-
-  onSubmit() {
-    const { binName, productId } = this.form;
-    this.authService.addNewBin(binName, productId).subscribe(
-      (data) => {
-        console.log(data);
-        this.getNewBinDetails = false;
-        this.getAllBins();
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
   }
 }
