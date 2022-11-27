@@ -1,6 +1,26 @@
 const jwt = require("jsonwebtoken");
 const user = require("../models/user");
 const config = require("../config/config");
+const parseCookie = require('../utility/utils');
+
+const verifyTokenForWs = async (msg) => {
+    const cookie = parseCookie(msg)
+    const token = cookie['token'];
+    let isVerified = false;
+    if (token) {
+        const decode = jwt.verify(token, config.secret_key);
+        // console.log('jwtToken: ', jwtToken);
+        if (decode && decode.id) {
+            const User = await user.findOne({
+                _id: decode.id
+            })
+            if (User) {
+                isVerified = true;
+            }
+        }
+    }
+    return isVerified;
+};
 
 const verifyToken = (req, res, next) => {
     const token = req.cookies?.token ?? req.header('token');
@@ -46,4 +66,5 @@ const verifyToken = (req, res, next) => {
       next();
     }
   };
-  module.exports = verifyToken;
+  module.exports.verifyToken = verifyToken;
+  module.exports.verifyTokenForWs = verifyTokenForWs;

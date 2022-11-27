@@ -4,7 +4,7 @@ const models = require("./../models/index");
 const bcrypt = require("bcrypt");
 const config = require("../config/config");
 const jwt = require("jsonwebtoken");
-const verifyToken = require("../controllers/authJWT");
+const { verifyToken } = require("../controllers/authJWT");
 
 router.get('/', verifyToken, function (req, res) {
     console.log("Token while querying api: " + req.cookies.token);
@@ -102,6 +102,7 @@ router.post('/login', async function (req, res) {
                         expiresIn: 86400
                     });
                     res.cookie('token', token, { httpOnly: true });
+                    res.cookie('userId', entry._id.toString());
                     res.status(200)
                     .send({
                       user: {
