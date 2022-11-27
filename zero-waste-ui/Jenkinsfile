@@ -6,6 +6,7 @@ pipeline {
             steps {
                 script{
                     sh"""
+                    cd zero-waste-ui
                     pwd
                     ls
                     docker build . -t krishnap1999/zerowaste-frontend:${BUILD_NUMBER}
