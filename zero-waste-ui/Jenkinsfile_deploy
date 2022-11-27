@@ -24,7 +24,7 @@ pipeline {
                     sh"""
                     docker stop frontend || true
                     docker rm frontend || true
-                    docker run -p 80:80 --name frontend -d krishnap1999/zerowaste-frontend:${build_number}
+                    docker run -p 8085:80 --name frontend -d krishnap1999/zerowaste-frontend:${build_number}
                     docker ps
                     """
                 }
