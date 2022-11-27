@@ -25,7 +25,6 @@ export class DashboardComponent implements OnInit {
   getAllBins() {
     this.authService.getAllBins().subscribe(
       (data: any) => {
-        console.log(data);
         this.binCollection = data;
         this.selectedBin = this.binCollection[0];
       },

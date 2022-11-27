@@ -50,7 +50,6 @@ export class WasteListComponent implements OnChanges {
     const { binName, productId } = this.form;
     this.authService.addNewBin(binName, productId).subscribe(
       (data) => {
-        console.log(data);
         this.getNewBinDetails = false;
         this.getAllBins();
       },
@@ -63,7 +62,6 @@ export class WasteListComponent implements OnChanges {
   getAllBins() {
     this.authService.getAllBins().subscribe(
       (data: any) => {
-        console.log(data);
         this.binCollection = data;
         this.selectedBinDetails = this.binCollection[0];
       },
