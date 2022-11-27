@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ListType } from '../types';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { AuthService } from 'src/app/_services/auth.service';
+import { BinType } from '../types';
 
 @Component({
   selector: 'app-waste-details',
@@ -8,8 +9,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
   styleUrls: ['./waste-details.component.css'],
 })
 export class WasteDetailsComponent implements OnInit {
-  constructor() {}
-  @Input() selectedBin: ListType;
+  constructor(private authService: AuthService) {}
+  @Input() selectedBin: BinType;
   view = [700, 400];
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'],
@@ -25,21 +26,51 @@ export class WasteDetailsComponent implements OnInit {
   xAxisLabel = 'Date';
   showYAxisLabel = true;
   yAxisLabel = 'Weight in KG';
-
+  wasteCollection: { date: string; totalWeight: number }[] = [];
+  isDataFetching = false;
   radioItems: Array<{ key: string; value: string }>;
   model = { option: 'past_10' };
-
+  dimensions: [number, number] = [0, 0];
+  innerWidth: any;
+  innerHeight: any;
   ngOnChanges() {
     this.ngOnInit();
   }
 
   ngOnInit(): void {
+    this.innerWidth = window.innerWidth;
+    this.innerHeight = window.innerHeight;
+    this.dimensions = [this.innerWidth / 2, this.innerHeight / 2];
     this.radioItems = [
       { value: 'Past 10 Days', key: 'past_10' },
       { value: 'Past 30 Days', key: 'past_30' },
     ];
-    this.generateRandomData();
+    if (this.selectedBin) this.getWasteDetailsByBinId(this.selectedBin);
     this.showChart = true;
+  }
+
+  getWasteDetailsByBinId(bin: BinType) {
+    this.isDataFetching = true;
+    this.authService
+      .getWasteDetailsByBinId(
+        bin._id,
+        new Date(new Date().setDate(new Date().getDate() - 31)),
+        new Date()
+      )
+      .subscribe(
+        (data: any) => {
+          this.wasteCollection = data;
+          this.wasteCollection.forEach(
+            (waste) => (waste.date = new Date(waste.date).toDateString())
+          );
+          this.generateData();
+          this.isDataFetching = false;
+        },
+        (err) => {
+          console.log(err);
+          this.isDataFetching = false;
+        }
+      );
   }
 
   rangeSelected(radiobutton: { key: string; value: string }) {
@@ -53,14 +84,21 @@ export class WasteDetailsComponent implements OnInit {
     this.single = this.single.slice(0, range == 'past_10' ? 10 : 31);
   }
 
-  generateRandomData() {
-    const data = [];
+  generateData() {
+    const data: { name: string; value: number }[] = [];
+
     for (let i = 0; i < 31; i++) {
+      const curDate = new Date(
+        new Date().setDate(new Date().getDate() - i)
+      ).toDateString();
+      const waste = this.wasteCollection.find(
+        (waste) => waste.date === curDate
+      );
       data.push({
         name: `${new Date(
           new Date().setDate(new Date().getDate() - i)
         ).toDateString()}`,
-        value: Math.floor(Math.random() * 25),
+        value: waste ? waste.totalWeight : -0,
       });
     }
     this.allData = data;

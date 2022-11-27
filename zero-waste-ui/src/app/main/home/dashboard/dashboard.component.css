@@ -1,22 +1,7 @@
-.text1 {
-  font-family: "arial";
-  font-style: italic;
-  font-weight: bold;
-  text-align: center;
-  width: 100%;
-  margin: 0px auto;
-  color: darkblue;
-  font-size: 25px;
-  letter-spacing: 2px;
-  text-shadow: -1px -10px 0px blue, 3px 3px 0px blue, 6px 6px 0px blue 900;
-}
-
 .left-panel {
   width: 40%;
   height: 100%;
   border: 3px solid darkblue;
-  padding-top: 20px;
-  padding-bottom: 40px;
 }
 
 .right-panel {

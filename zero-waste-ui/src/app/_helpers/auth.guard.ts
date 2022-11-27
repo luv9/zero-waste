@@ -25,18 +25,17 @@ export class AuthGuard implements CanActivate {
       Object.getPrototypeOf(userDetails) === Object.prototype
     ) {
       //authorised so return true
-        return this.authService.isLoggedIn().pipe(
-          map(
-            (data) => {
-              console.log(data);
-              return true;
-            },
-            (err: any) => {
-              console.log(err);
-              return false;
-            }
-          )
-        );
+      return this.authService.isLoggedIn().pipe(
+        map(
+          (data) => {
+            return true;
+          },
+          (err: any) => {
+            console.log(err);
+            return false;
+          }
+        )
+      );
       return true;
     } else {
       // not logged in so redirect to login page with the return url

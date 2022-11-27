@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const models = require("./../models/index");
-const verifyToken = require("./../controllers/authJWT");
+const { verifyToken } = require("./../controllers/authJWT");
 
 router.get("/", function (req, res) {
   res.send("All waste routes will be defined here");
@@ -25,6 +25,7 @@ router.post("/", verifyToken, function (req, res) {
   ) {
     return res.status(500).send("Input format is incorrect");
   }
+
   if (fromDate > toDate) {
     return res.status(500).send("From date is greater than To date");
   }
@@ -38,20 +39,15 @@ router.post("/", verifyToken, function (req, res) {
     .gte(fromDate)
     .where("date")
     .lte(toDate)
-    .select("totalWeight")
+    .select("date totalWeight")
     .exec((err, weights) => {
       if (err) return res.status(500).send("Error with fetching data");
 
-      return res.status(200).send(weights.reduce((a, b) => a + b, 0));
+      return res.status(200).send(weights);
     });
 });
 
-router.post("/saveManual", verifyToken, async function (req, res) {
-    if (!req.verifiedUser) {
-      return res.status(403).send({
-        message: "Invalid JWT token/User not authorised",
-      });
-    }
+router.post("/saveManual", async function (req, res) {
     const binId = req.body.binId;
     let currentWeight = req.body.currentWeight;
     let totalWeight = req.body.totalWeight;

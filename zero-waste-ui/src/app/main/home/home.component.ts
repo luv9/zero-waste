@@ -15,7 +15,23 @@ export class HomeComponent implements OnInit {
 
   isDashboardActive = true;
   isProfileActive = false;
-  ngOnInit(): void {}
+  message: any;
+  ngOnInit(): void {
+    try {
+      console.log(document.cookie);
+      const cookie = document.cookie;
+      const ws = new WebSocket(`ws://localhost:3000/binStatusChange`);
+      ws.onmessage = ({data}) => {
+        this.message =  data;
+        console.log(this.message);
+      }
+      ws.onopen = (event) => {
+        console.log("WebSocket connection established.");
+    }
+    } catch(err) {
+      console.log('Error connecting websocket: ', err);
+    }
+  }
   changeToDashboard() {
     this.isProfileActive = false;
     this.isDashboardActive = true;

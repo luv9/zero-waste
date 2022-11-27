@@ -1,34 +1,22 @@
 <div class="waste-details">
+  <div class="list-label">{{ selectedBin?.name }}</div>
   <div class="range-select">
-    <label *ngFor="let radiobutton of radioItems">
-      <input
-        type="radio"
-        name="options"
-        class="radio-btn"
-        (click)="rangeSelected(radiobutton)"
-        [checked]="radiobutton.key === model.option"
-      />{{ radiobutton.value }}
-    </label>
+    <div class="range-buttons">
+      <label *ngFor="let radiobutton of radioItems">
+        <input type="radio" name="options" class="radio-btn" (click)="rangeSelected(radiobutton)"
+          [checked]="radiobutton.key === model.option" />{{ radiobutton.value }}
+      </label>
+    </div>
+    <div (click)="getWasteDetailsByBinId(selectedBin)">
+      <button style="font-size: 24px; background-color: white; border-radius: 12px">
+        <i class="fa fa-refresh" [ngClass]="isDataFetching ? 'fa-spin' : ''"></i>
+      </button>
+    </div>
   </div>
-  <div
-    class="bar-chart"
-    *ngIf="showChart"
-    style="display: flex; flex-direction: column"
-  >
-    <ngx-charts-bar-vertical
-      [view]="[650, 400]"
-      [scheme]="colorScheme"
-      [results]="single"
-      [gradient]="gradient"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [legend]="showLegend"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [xAxisLabel]="xAxisLabel"
-      [yAxisLabel]="yAxisLabel"
-      (select)="onSelect($event)"
-    >
+  <div class="bar-chart" *ngIf="showChart" style="display: flex; flex-direction: column">
+    <ngx-charts-bar-vertical [view]="dimensions" [scheme]="colorScheme" [results]="single" [gradient]="gradient"
+      [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
     </ngx-charts-bar-vertical>
     <div style="margin-left: 350px">Date</div>
   </div>

@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const models = require("../models/index");
-const verifyToken = require("../controllers/authJWT");
+const { verifyToken } = require("../controllers/authJWT");
+const Redis = require('ioredis');
+const redis = new Redis();
 
 router.post("/", verifyToken, function (req, res) {
   const userId = req.body.userId;
@@ -19,7 +21,7 @@ router.post("/", verifyToken, function (req, res) {
     .find()
     .where("userId")
     .equals(userId)
-    .select("name userId status")
+    .select("name status")
     .exec((err, result) => {
       if (err) return "Error with fetching data";
 
@@ -53,7 +55,7 @@ router.get("/weight/:binId", verifyToken, function (req, res) {
 });
 
 router.post("/save", verifyToken, function (req, res) {
-  console.log(req.verifiedUser);
+  // console.log(req.verifiedUser);
   if (!req.verifiedUser) {
     return res.status(403).send({
       message: "Invalid JWT token/User not authorised",
@@ -108,7 +110,7 @@ router.post("/save", verifyToken, function (req, res) {
 });
 
 router.post("/update", verifyToken, async function (req, res) {
-  console.log(req.verifiedUser);
+  // console.log(req.verifiedUser);
   if (!req.verifiedUser) {
     return res.status(403).send({
       message: "Invalid JWT token/User not authorised",
@@ -128,7 +130,7 @@ router.post("/update", verifyToken, async function (req, res) {
 
   const User = models.user;
 
-  let doc = await bin.findByIdAndUpdate(entry._id, { status: status });
+  // let doc = await bin.findByIdAndUpdate(entry._id, { status: status });
 
   bin
     .findOne()
@@ -139,6 +141,9 @@ router.post("/update", verifyToken, async function (req, res) {
         return res.status(500).send("Error with database");
       }
       if (entry) {
+        if (status === 'Full') {
+          redis.publish(`bin_status_${entry.userId}`, JSON.stringify({ binId: entry._id.toString(), status, name }));
+        }
         let doc = await bin.findByIdAndUpdate(entry._id, { status: status });
         return res.status(200).send("Bin data updated successfully!");
       } else {

@@ -1,8 +1,10 @@
 <div class="dashboard-component">
   <div class="panels">
     <div class="left-panel">
-      <div class="text1">CHOOSE YOUR BIN</div>
-      <app-waste-list (selectedBin)="changeBin($event)"></app-waste-list>
+      <app-waste-list
+        [binCollection]="binCollection"
+        (selectedBin)="changeBin($event)"
+      ></app-waste-list>
     </div>
     <div class="right-panel">
       <app-waste-details [selectedBin]="selectedBin"></app-waste-details>

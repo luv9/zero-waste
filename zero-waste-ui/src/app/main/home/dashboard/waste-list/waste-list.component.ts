@@ -1,26 +1,73 @@
 import {
   Component,
   EventEmitter,
+  Input,
   OnChanges,
   OnInit,
   Output,
 } from '@angular/core';
-import { ListType } from '../types';
+import { AuthService } from 'src/app/_services/auth.service';
+import { BinType, ListType } from '../types';
 
 @Component({
   selector: 'app-waste-list',
   templateUrl: './waste-list.component.html',
   styleUrls: ['./waste-list.component.css'],
 })
-export class WasteListComponent {
-  constructor() {}
+export class WasteListComponent implements OnChanges {
+  constructor(private authService: AuthService) {}
 
   @Output() selectedBin = new EventEmitter();
 
+  @Input() binCollection: BinType[] = [];
   data: ListType[];
-  show2ndComponent = false;
+  form: any = {
+    binName: null,
+    productId: null,
+  };
+  getNewBinDetails = false;
+  selectedBinDetails: BinType;
+  addNewBinBtnDisabled = false;
 
-  binSelected(x?: ListType) {
-    this.selectedBin.emit(x ?? { key: 'test' });
+  ngOnChanges() {
+    this.selectedBinDetails = this.binCollection[0];
+  }
+
+  closeAddBinMenu() {
+    this.getNewBinDetails = false;
+  }
+
+  addNewBin() {
+    this.getNewBinDetails = true;
+  }
+
+  binSelected(bin: BinType) {
+    this.selectedBinDetails = bin;
+    this.selectedBin.emit(bin);
+  }
+
+  onSubmit() {
+    const { binName, productId } = this.form;
+    this.authService.addNewBin(binName, productId).subscribe(
+      (data) => {
+        this.getNewBinDetails = false;
+        this.getAllBins();
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+
+  getAllBins() {
+    this.authService.getAllBins().subscribe(
+      (data: any) => {
+        this.binCollection = data;
+        this.selectedBinDetails = this.binCollection[0];
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 }
