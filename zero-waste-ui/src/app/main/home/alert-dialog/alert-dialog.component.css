@@ -1,0 +1,36 @@
+.alert-body {
+  background-color: white;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+}
+
+.alert-sign {
+  margin: 30px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialog-text {
+  font-weight: bold;
+  font-size: larger;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  font-size: larger;
+}
+
+.btn {
+  border: 1px solid grey;
+}

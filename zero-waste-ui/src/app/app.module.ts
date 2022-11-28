@@ -12,6 +12,8 @@ import { HomeComponent } from './main/home/home.component';
 import { ProfileComponent } from './main/home/profile/profile.component';
 import { FormsModule } from '@angular/forms';
 import { APP_BASE_HREF } from '@angular/common';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AlertDialogComponent } from './main/home/alert-dialog/alert-dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,16 +23,19 @@ import { APP_BASE_HREF } from '@angular/common';
     WasteListComponent,
     WasteDetailsComponent,
     ProfileComponent,
+    AlertDialogComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
+    MatDialogModule,
     NgxChartsModule,
     HttpClientModule,
   ],
   providers: [{ provide: APP_BASE_HREF, useValue: 'ui' }],
   bootstrap: [AppComponent],
+  entryComponents: [AlertDialogComponent],
 })
 export class AppModule {}
