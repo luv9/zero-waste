@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const models = require("../models/index");
 const { verifyToken } = require("../controllers/authJWT");
-const Redis = require('ioredis');
+const Redis = require("ioredis");
 const redis = new Redis();
 
 router.post("/", verifyToken, function (req, res) {
@@ -50,7 +50,7 @@ router.get("/weight/:binId", verifyToken, function (req, res) {
     .exec((err, result) => {
       if (err) return "Error with fetching data";
 
-      return res.status(200).send('' + result[0].currentWeight);
+      return res.status(200).send("" + result[0].currentWeight);
     });
 });
 
@@ -141,8 +141,11 @@ router.post("/update", verifyToken, async function (req, res) {
         return res.status(500).send("Error with database");
       }
       if (entry) {
-        if (status === 'Full') {
-          redis.publish(`bin_status_${entry.userId}`, JSON.stringify({ binId: entry._id.toString(), status, name }));
+        if (status === "Full") {
+          redis.publish(
+            `bin_status_${entry.userId}`,
+            JSON.stringify({ binId: entry._id.toString(), status, name })
+          );
         }
         let doc = await bin.findByIdAndUpdate(entry._id, { status: status });
         return res.status(200).send("Bin data updated successfully!");

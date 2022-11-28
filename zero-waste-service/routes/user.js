@@ -6,20 +6,16 @@ const config = require("../config/config");
 const jwt = require("jsonwebtoken");
 const { verifyToken } = require("../controllers/authJWT");
 
-router.get('/', verifyToken, function (req, res) {
-    console.log("Token while querying api: " + req.cookies.token);
-    if (!req.verifiedUser) {
-        
-        return res.status(403)
-            .send({
-                message: "Invalid JWT token/User not authorised"
-            });
-    } else {
-        return res.status(200)
-            .send("User routes go here")
-    }
-    
-})
+router.get("/", verifyToken, function (req, res) {
+  console.log("Token while querying api: " + req.cookies.token);
+  if (!req.verifiedUser) {
+    return res.status(403).send({
+      message: "Invalid JWT token/User not authorised",
+    });
+  } else {
+    return res.status(200).send("User routes go here");
+  }
+});
 
 router.post("/signup", async function (req, res) {
   const user = models.user;
@@ -68,53 +64,62 @@ router.post("/signup", async function (req, res) {
   });
 });
 
-router.post('/logout', verifyToken, function(req, res) {
-    console.log("Token deleted in logout")
-    res.clearCookie('token')
-    return res.status(200).send({"logout": "true"})
-})
+router.post("/logout", verifyToken, function (req, res) {
+  console.log("Token deleted in logout");
+  res.clearCookie("token");
+  return res.status(200).send({ logout: "true" });
+});
 
-router.post('/login', async function (req, res) {
-    const user = models.user;
-    const email = req.body.email;
-    const password = req.body.password;
-    console.log('Deleting token before starting login')
-    res.clearCookie('token')
-    user.findOne({
-        email: email
-    }).exec((err, entry) => {
-        if(err) {
-            return res.status(500).send("Some error occurred with fetching details from db")
-        }
-        if(!entry) {
-            return res.status(404).send("Couldn't find the user")
-        } else {
-            bcrypt.compare(password, entry.password, function(err, isValid){
-                if(err) {
-                    return res.status(500).send("Some error occurrred. Please try again in some time.")
-                }
-                if(!isValid) {
-                    return res.status(401).send("Invalid password")
-                } else {
-                    const token = jwt.sign({
-                        id: entry._id
-                        }, config.secret_key, {
-                        expiresIn: 86400
-                    });
-                    res.cookie('token', token, { httpOnly: true });
-                    res.cookie('userId', entry._id.toString());
-                    res.status(200)
-                    .send({
-                      user: {
-                        id: entry._id,
-                        email: entry.email,
-                        fullName: entry.name,
-                      },
-                      message: "Login successful",
-                    });
-                }
-            })
-        }
+router.post("/login", async function (req, res) {
+  const user = models.user;
+  const email = req.body.email;
+  const password = req.body.password;
+  console.log("Deleting token before starting login");
+  res.clearCookie("token");
+  user
+    .findOne({
+      email: email,
+    })
+    .exec((err, entry) => {
+      if (err) {
+        return res
+          .status(500)
+          .send("Some error occurred with fetching details from db");
+      }
+      if (!entry) {
+        return res.status(404).send("Couldn't find the user");
+      } else {
+        bcrypt.compare(password, entry.password, function (err, isValid) {
+          if (err) {
+            return res
+              .status(500)
+              .send("Some error occurrred. Please try again in some time.");
+          }
+          if (!isValid) {
+            return res.status(401).send("Invalid password");
+          } else {
+            const token = jwt.sign(
+              {
+                id: entry._id,
+              },
+              config.secret_key,
+              {
+                expiresIn: 86400,
+              }
+            );
+            res.cookie("token", token, { httpOnly: true });
+            res.cookie("userId", entry._id.toString());
+            res.status(200).send({
+              user: {
+                id: entry._id,
+                email: entry.email,
+                fullName: entry.name,
+              },
+              message: "Login successful",
+            });
+          }
+        });
+      }
     });
 });
 

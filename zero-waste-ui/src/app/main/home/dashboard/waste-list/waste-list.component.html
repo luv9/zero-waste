@@ -1,40 +1,84 @@
 <div class="waste-list">
   <div class="list-label">Choose Your Bin</div>
   <div *ngIf="getNewBinDetails" style="margin: 0 100px">
-    <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+    <form
+      name="form"
+      (ngSubmit)="f.form.valid && onSubmit()"
+      #f="ngForm"
+      novalidate
+    >
       <div><b>Add Details of New Bin</b></div>
       <div class="form-group">
         <label for="username">Bin Name</label>
-        <input type="text" class="form-control" name="binName" [(ngModel)]="form.binName" required #name="ngModel" />
-        <div class="alert alert-danger" role="alert" *ngIf="name.errors && f.submitted">
+        <input
+          type="text"
+          class="form-control"
+          name="binName"
+          [(ngModel)]="form.binName"
+          required
+          #name="ngModel"
+        />
+        <div
+          class="alert alert-danger"
+          role="alert"
+          *ngIf="name.errors && f.submitted"
+        >
           Name is required!
         </div>
       </div>
       <div class="form-group">
         <label for="password">Bin Product Id</label>
-        <input type="text" class="form-control" name="productId" [(ngModel)]="form.productId" required #id="ngModel" />
-        <div class="alert alert-danger" role="alert" *ngIf="id.errors && id.errors['required'] && f.submitted">
+        <input
+          type="text"
+          class="form-control"
+          name="productId"
+          [(ngModel)]="form.productId"
+          required
+          #id="ngModel"
+        />
+        <div
+          class="alert alert-danger"
+          role="alert"
+          *ngIf="id.errors && id.errors['required'] && f.submitted"
+        >
           Product Id is required
         </div>
       </div>
       <div class="form-group">
-        <button class="btn btn-primary btn-block" [disabled]="addNewBinBtnDisabled">
+        <button
+          class="btn btn-primary btn-block"
+          [disabled]="addNewBinBtnDisabled"
+        >
           Save
         </button>
       </div>
       <div>
-        <button class="btn btn-block" *ngIf="getNewBinDetails" (click)="closeAddBinMenu()">
+        <button
+          class="btn btn-block"
+          *ngIf="getNewBinDetails"
+          (click)="closeAddBinMenu()"
+        >
           Close
         </button>
       </div>
     </form>
   </div>
   <div class="bin-collection">
-    <button style="font-weight: 600;" class="btn btn-light" *ngIf=" !getNewBinDetails" (click)="addNewBin()">
+    <button
+      style="font-weight: 600"
+      class="btn btn-light"
+      *ngIf="!getNewBinDetails"
+      (click)="addNewBin()"
+    >
       Add new Bin
     </button>
     <div class="buttons-list scrollbar" id="style-1">
-      <button class="button-64" role="button" *ngFor="let bin of binCollection" (click)="binSelected(bin)">
+      <button
+        class="button-64"
+        role="button"
+        *ngFor="let bin of binCollection"
+        (click)="binSelected(bin)"
+      >
         <span class="text">{{ bin.name }}</span>
       </button>
     </div>
