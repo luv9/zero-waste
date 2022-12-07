@@ -6,6 +6,7 @@ const config = require("../config/config");
 const jwt = require("jsonwebtoken");
 const { verifyToken } = require("../controllers/authJWT");
 
+
 router.get("/", verifyToken, function (req, res) {
   console.log("Token while querying api: " + req.cookies.token);
   if (!req.verifiedUser) {
@@ -17,6 +18,13 @@ router.get("/", verifyToken, function (req, res) {
   }
 });
 
+/**
+ * Retrieves user details and saves the user in db
+ * 
+ * @param {string} routePath Defines the route path which will trigger this method
+ * @param {middleware} verifyToken verifies the user before processing the request
+ * @param {function} processRequest retrieves user data, validate it and stores in db
+ */
 router.post("/signup", async function (req, res) {
   const user = models.user;
   const email = req.body.email;
@@ -64,12 +72,27 @@ router.post("/signup", async function (req, res) {
   });
 });
 
+/**
+ * Logs out an already logged in user
+ * 
+ * @param {string} routePath Defines the route path which will trigger this method
+ * @param {middleware} verifyToken verifies the user before processing the request
+ * @param {function} processRequest Deletes the token so user has to login again to use the app
+ * @returns {JSON} informs the user about successful logout
+ */
 router.post("/logout", verifyToken, function (req, res) {
   console.log("Token deleted in logout");
   res.clearCookie("token");
   return res.status(200).send({ logout: "true" });
 });
 
+/**
+ * User logs in by sending email and password
+ * 
+ * @param {string} routePath Defines the route path which will trigger this method
+ * @param {middleware} verifyToken verifies the user before processing the request
+ * @param {function} processRequest Verifies user credentials and logs them in. Stores cookie to remember the user for some time
+ */
 router.post("/login", async function (req, res) {
   const user = models.user;
   const email = req.body.email;
@@ -123,6 +146,13 @@ router.post("/login", async function (req, res) {
     });
 });
 
+/**
+ * Checks if a user is logged in or not
+ * 
+ * @param {string} routePath Defines the route path which will trigger this method
+ * @param {middleware} verifyToken verifies the user before processing the request
+ * @param {function} processRequest Checks if the token is valid or not
+ */
 router.post("/loggedInOrNot", verifyToken, function (req, res) {
   if (!req.verifiedUser) {
     return res.status(403).send({

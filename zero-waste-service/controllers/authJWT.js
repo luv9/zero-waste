@@ -21,6 +21,13 @@ const verifyTokenForWs = async (msg) => {
   }
   return isVerified;
 };
+/**
+ * Authenticates user based on the jwt token.
+ * 
+ * @param {httpRequest} req request from http request, containing token and header to match user credentials
+ * @param {httpContent} res response sent to route after middleware processing
+ * @param {route} next to call the next middleware, i.e. to return back control to route which called this middleware for authentication
+ */
 
 const verifyToken = (req, res, next) => {
   const token = req.cookies?.token ?? req.header("token");

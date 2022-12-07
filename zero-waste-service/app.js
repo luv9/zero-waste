@@ -1,3 +1,8 @@
+/**
+ * app.js: Entry point for starting the application. It defines all the routes and starts the application on port 3000.
+ * It also initialises the app with functionality required for the proper working of the server.
+ */
+
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");

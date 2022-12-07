@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "debug": "node app.js --inspect",
-    "test": "mocha 'test/**/*.js' --recursive --exit"
+    "test": "mocha 'test/**/*.js' --recursive --exit",
+    "docs:build": "documentation build controllers/** models/** routes/** -f html -o docs "
   },
   "repository": {
     "type": "git",

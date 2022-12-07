@@ -5,6 +5,14 @@ const { verifyToken } = require("../controllers/authJWT");
 const Redis = require("ioredis");
 const redis = new Redis();
 
+/**
+ * Retrieves bins associated to a particular user
+ * 
+ * @param {string} routePath Defines the route path which will trigger this method
+ * @param {middleware} verifyToken verifies the user before processing the request
+ * @param {function} processRequest retrieves bins data based on user id
+ * @returns {JSON} array of bins of the user
+ */
 router.post("/", verifyToken, function (req, res) {
   const userId = req.body.userId;
   if (!req.verifiedUser) {
@@ -29,6 +37,14 @@ router.post("/", verifyToken, function (req, res) {
     });
 });
 
+/**
+ * Retrieves bin's current weight datewise for all the days
+ * 
+ * @param {string} routePath Defines the route path which will trigger this method
+ * @param {middleware} verifyToken verifies the user before processing the request
+ * @param {function} processRequest retrieves bins data based on bin id 
+ * @returns {JSON} array of bins of the user
+ */
 router.get("/weight/:binId", verifyToken, function (req, res) {
   const binId = req.params.binId;
   if (!req.verifiedUser) {
@@ -54,14 +70,19 @@ router.get("/weight/:binId", verifyToken, function (req, res) {
     });
 });
 
+/**
+ * Saves a bin in the database
+ * 
+ * @param {string} routePath Defines the route path which will trigger this method
+ * @param {middleware} verifyToken verifies the user before processing the request
+ * @param {function} processRequest retrieves bins details, validate the details and saves it in db
+ */
 router.post("/save", verifyToken, function (req, res) {
-  // console.log(req.verifiedUser);
   if (!req.verifiedUser) {
     return res.status(403).send({
       message: "Invalid JWT token/User not authorised",
     });
   }
-  // if(!req.verifyToken)
   const name = req.body.name;
   const pid = req.body.pid;
   const userId = req.body.userId;
@@ -109,6 +130,13 @@ router.post("/save", verifyToken, function (req, res) {
   });
 });
 
+/**
+ * Retrieves bin's data and update it in db
+ * 
+ * @param {string} routePath Defines the route path which will trigger this method
+ * @param {middleware} verifyToken verifies the user before processing the request
+ * @param {function} processRequest retrieves bins data and status and update the details in db
+ */
 router.post("/update", verifyToken, async function (req, res) {
   // console.log(req.verifiedUser);
   if (!req.verifiedUser) {

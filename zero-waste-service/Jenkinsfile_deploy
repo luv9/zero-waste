@@ -1,34 +1,34 @@
-pipeline {
-    agent any 
-    parameters {
-      string(name:'build_number',description:'Enter the build number to deploy')
-    }
-    stages {
-        stage('pull') 
-        {
-            steps {
-                script{
-                    sh"""
-                    pwd
-                    ls
-                    docker pull krishnap1999/zerowaste-backend:${build_number}
-                    docker image ls
-                    """
-                }
-            }
-        }   
-        stage('deploy') 
-        {
-            steps {
-                script{
-                    sh"""
-                    docker stop backend || true
-                    docker rm backend || true
-                    docker run -p 8085:3000 --name backend -d krishnap1999/zerowaste-backend:${build_number}
-                    docker ps
-                    """
-                }
-            }
-        } 
-    }     
-}
+// pipeline {
+//     agent any 
+//     parameters {
+//       string(name:'build_number',description:'Enter the build number to deploy')
+//     }
+//     stages {
+//         stage('pull') 
+//         {
+//             steps {
+//                 script{
+//                     sh"""
+//                     pwd
+//                     ls
+//                     docker pull krishnap1999/zerowaste-backend:${build_number}
+//                     docker image ls
+//                     """
+//                 }
+//             }
+//         }   
+//         stage('deploy') 
+//         {
+//             steps {
+//                 script{
+//                     sh"""
+//                     docker stop backend || true
+//                     docker rm backend || true
+//                     docker run -p 8085:3000 --name backend -d krishnap1999/zerowaste-backend:${build_number}
+//                     docker ps
+//                     """
+//                 }
+//             }
+//         } 
+//     }     
+// }

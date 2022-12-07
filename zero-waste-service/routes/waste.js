@@ -7,6 +7,15 @@ router.get("/", function (req, res) {
   res.send("All waste routes will be defined here");
 });
 
+
+/**
+ * Gives bin's data in a given date range
+ * 
+ * @param {string} routePath Defines the route path which will trigger this method
+ * @param {middleware} verifyToken verifies the user before processing the request
+ * @param {function} processRequest collects and returns bin's data in a given date range
+ * @returns {JSON} date wise waste collected information in a bin
+ */
 router.post("/", verifyToken, function (req, res) {
   if (!req.verifiedUser) {
     return res.status(403).send({
@@ -47,6 +56,7 @@ router.post("/", verifyToken, function (req, res) {
     });
 });
 
+
 router.post("/saveManual", async function (req, res) {
   const binId = req.body.binId;
   let currentWeight = req.body.currentWeight;
@@ -69,8 +79,14 @@ router.post("/saveManual", async function (req, res) {
   });
 });
 
+/**
+ * Saves waste data collected from bin
+ * 
+ * @param {string} routePath Defines the route path which will trigger this method
+ * @param {middleware} verifyToken verifies the user before processing the request
+ * @param {function} processRequest retrieves the bin's weight and updates the waste collected in the db
+ */
 router.post("/save", verifyToken, async function (req, res) {
-  console.log("hereeeee");
   if (!req.verifiedUser) {
     return res.status(403).send({
       message: "Invalid JWT token/User not authorised",

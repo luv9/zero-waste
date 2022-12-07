@@ -1,7 +1,16 @@
+/*
+ * Creates and exports waste model
+ */
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+/**
+ * @param binId bin in which the waste is being collected
+ * @param date date on which the waste is collected
+ * @param totalWeight total weight collected on a given day
+ * @param currentWeight current weight of the bin on a given day
+ */
 const wasteSchema = new Schema(
   {
     binId: { type: Schema.Types.ObjectId, required: [true, ""], ref: "bin" },
