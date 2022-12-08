@@ -112,6 +112,97 @@ describe("User routes", function () {
               res.status.should.equal(500)
         });
         done();
+      
+      it('should throw error with 500 status if we try to call signup api with empty name', function(done) {
+        
+        let User = {
+            email: 'random@random.com',
+            password: 'any random string',
+        }
+         
+        request('localhost:3000')
+          .post('/user/signup')
+          .send(User)
+          .end(function(err,res) {
+              if (err) {
+                  throw err;
+              }
+
+              res.text.should.equal('Invalid details');
+              res.status.should.equal(500)
+          });
+        done();
+    
+    })
+
+    it('should throw error with 500 status if we try to call signup api with empty pwd', function(done) {
+        let User = {
+            email: 'someemail@test.com',
+            name: 'Some random name'
+        }
+        request('localhost:3000')
+          .post('/user/signup')
+          .send(User)
+          .end(function(err,res) {
+              if (err) {
+                  throw err;
+              }
+
+              res.text.should.equal('Invalid details');
+              res.status.should.equal(500)
+          });
+        done();
+    
+    })
+
+    it('should throw error with 403 status if user is not logged in', function(done) {
+        request('localhost:3000')
+        .post('/user/loggedInOrNot')
+        .send()
+        .end(function(err,res) {
+            if (err) {
+                throw err;
+            }
+            res.body.message.should.equal('Invalid JWT token/User not authorised');
+            res.status.should.equal(403)
+        });
+        done();
+    })
+
+    it('should verify the user if the user is logged in', function(done) {
+        const User = {
+            email: 'luv123@gmail.com',
+            password: 'hello-hello',
+            
+        }
+        request('localhost:3000')
+          .post('/user/login')
+          .send(User)
+          .end(function(err,res) {
+              if (err) {
+                  throw err;
+              }
+
+          });
+        request('localhost:3000')
+        .post('/user/loggedInOrNot')
+        .send()
+        .end(function(err,res) {
+            if (err) {
+                throw err;
+            }
+            res.body.message.should.equal('JWT Token is not expired. User is authorised');
+            res.status.should.equal(200)
+        });
+        request('localhost:3000')
+        .post('/user/logout')
+        .send()
+        .end(function(err,res) {
+            if (err) {
+                throw err;
+            }
+        });
+        done();
     
     });
 
