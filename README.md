@@ -44,6 +44,14 @@ go to folder zero-waste/zero-waste-service, and type these commands:
 npm install
 npm start
 
+**Instructions to start Angular build**
+This project uses latest angular v15.0
+
+In the terminal run ng serve command to start the angular build
+if successfull then the server will be running at port 4200
+
+if not then do npm i -f to reinstall all the dependencies 
+
 References:
 
 https://expressjs.com/en/starter/installing.html
