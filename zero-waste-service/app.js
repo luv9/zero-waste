@@ -49,7 +49,13 @@ httpServer.listen(port, () => {
   console.log(`Mongo database working on: ${mongoUrl}`);
 });
 
-httpServer.on("upgrade", async function (req, socket, head) {
+/**
+ * Event listener for httpServer for websocket upgrade event 
+ * 
+ * @param {string} event name of the event for which listener is attached.
+ * @param {function} processRequest callback function to handle the websocket connection.
+ */
+httpServer.on("upgrade", async function (req, socket) {
   var validationResult = await verifyTokenForWs(req.headers.cookie);
   if (!validationResult) {
     socket.write(
@@ -65,6 +71,12 @@ httpServer.on("upgrade", async function (req, socket, head) {
 });
 const expressWs = require("express-ws")(app, httpServer);
 
+/**
+ * Websocket route to handle bin status change notification.
+ * 
+ * @param {string} routePath Defines the route path which will trigger this method
+ * @param {function} processMessage process the message and subscribe to bin status change for that user
+ */
 app.ws("/binStatusChange", function (ws, req) {
   const cookieList = parseCookie(req.headers.cookie);
   const userId = cookieList?.["userId"];

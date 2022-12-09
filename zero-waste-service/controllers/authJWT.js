@@ -3,6 +3,13 @@ const user = require("../models/user");
 const config = require("../config/config");
 const parseCookie = require("../utility/utils");
 
+
+/**
+ * User Authentication for websocket connection based on jwt token
+ * 
+ * @param {String} msg cookie string containing the token for user authentication.
+ * @returns {Boolean} - true if the user is authenticated, false otherwise.
+ */
 const verifyTokenForWs = async (msg) => {
   const cookie = parseCookie(msg);
   const token = cookie["token"];
