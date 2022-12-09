@@ -25,6 +25,7 @@ describe("User routes", function () {
         done();
       });
   });
+
   it('should throw error with 401 status if we try to login with a wrong password', function(done) {
         const User = {
             email: 'luv123@gmail.com',
@@ -45,6 +46,7 @@ describe("User routes", function () {
           });
           done();
     });
+
 
     it('should logout if you\'re logged in', function(done) {
         const User = {
@@ -73,6 +75,7 @@ describe("User routes", function () {
         done();
     });
 
+
     it('should throw error with 500 status if we try to signup a new user with an already existing email', function(done) {
           const User = {
               email: 'luv123@gmail.com',
@@ -93,6 +96,7 @@ describe("User routes", function () {
             });
             done();
     });
+
 
     it('should throw error with 500 status if we try to call signup api with empty email', function(done) {
         let User = {
