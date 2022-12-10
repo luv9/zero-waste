@@ -52,6 +52,12 @@ if successfull then the server will be running at port 4200
 
 if not then do npm i -f to reinstall all the dependencies 
 
+**Instructions to start simulation**
+This project uses Unity Application for simulation
+To start the simulation, import the unity package file in simulation folder into the unity software.
+
+After importing, go to Assets, and modify data in Config.cs, BlueBin.cs, RedBin.cs and GreenBin.cs files. Finally, run the simulation
+
 References:
 
 https://expressjs.com/en/starter/installing.html
