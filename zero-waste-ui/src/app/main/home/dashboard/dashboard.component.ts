@@ -23,6 +23,25 @@ export class DashboardComponent implements OnInit {
   }
 
   getAllBins() {
+    this.binCollection = [
+      {
+        _id: '63810b888401fd2ef5212381',
+        name: 'Laundry Bin',
+        status: 'Fillable',
+      },
+      {
+        _id: '63810c128401fd2ef5212386',
+        name: 'Outdoor Bin',
+        status: 'Fillable',
+      },
+      {
+        _id: '63810c748401fd2ef521238f',
+        name: 'Lobby Bin',
+        status: 'Full',
+      },
+    ];
+    this.selectedBin = this.binCollection[0];
+    return;
     this.authService.getAllBins().subscribe(
       (data: any) => {
         this.binCollection = data;

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AuthService } from 'src/app/_services/auth.service';
 import { BinType } from '../types';
+import data from './sampleData';
 
 @Component({
   selector: 'app-waste-details',
@@ -26,7 +27,8 @@ export class WasteDetailsComponent implements OnInit {
   xAxisLabel = 'Date';
   showYAxisLabel = true;
   yAxisLabel = 'Weight in KG';
-  wasteCollection: { date: string; totalWeight: number }[] = [];
+  wasteCollection: { _id?: string; date: string; totalWeight: number }[] = [];
+  sampleCollection = data;
   isDataFetching = false;
   radioItems: Array<{ key: string; value: string }>;
   model = { option: 'past_10' };
@@ -51,6 +53,13 @@ export class WasteDetailsComponent implements OnInit {
 
   getWasteDetailsByBinId(bin: BinType) {
     this.isDataFetching = true;
+    this.wasteCollection = [...this.sampleCollection];
+    this.wasteCollection.forEach(
+      (waste) => (waste.date = new Date(waste.date).toDateString())
+    );
+    this.generateData();
+    this.isDataFetching = false;
+    return;
     this.authService
       .getWasteDetailsByBinId(
         bin._id,
@@ -86,14 +95,13 @@ export class WasteDetailsComponent implements OnInit {
 
   generateData() {
     const data: { name: string; value: number }[] = [];
-
+    this.wasteCollection = [...this.sampleCollection];
     for (let i = 0; i < 31; i++) {
       const curDate = new Date(
         new Date().setDate(new Date().getDate() - i)
       ).toDateString();
-      const waste = this.wasteCollection.find(
-        (waste) => waste.date === curDate
-      );
+      const waste = this.wasteCollection.find((waste) => waste.date);
+      this.wasteCollection.shift();
       data.push({
         name: `${new Date(
           new Date().setDate(new Date().getDate() - i)

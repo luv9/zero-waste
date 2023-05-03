@@ -25,6 +25,7 @@ export class AuthGuard implements CanActivate {
       Object.getPrototypeOf(userDetails) === Object.prototype
     ) {
       //authorised so return true
+      return true;
       return this.authService.isLoggedIn().pipe(
         map(
           (data) => {
