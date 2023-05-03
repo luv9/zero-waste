@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
     try {
       console.log(document.cookie);
       const cookie = document.cookie;
-      const ws = new WebSocket(`ws://localhost:3000/binStatusChange`);
+      const ws = new WebSocket(`ws://${window.location.href}}/binStatusChange`);
       ws.onmessage = ({ data }) => {
         this.message = JSON.parse(data);
         this.openAlertDialog(this.message);
